@@ -35,14 +35,26 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link me-2" href="{{ url('login') }}">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link me-2" href="{{ url('registration') }}">Registration</a>
-                </li>
-            </ul>
+            @if (!Auth::check())
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link me-2" href="{{ url('login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link me-2" href="{{ url('registration') }}">Registration</a>
+                    </li>
+                </ul>
+            @else
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        {{ Auth::user()->name }}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link me-2" href="{{ url('logout') }}">Logout</a>
+                    </li>
+                </ul>
+            @endif
+
         </div>
     </div>
 </nav>
