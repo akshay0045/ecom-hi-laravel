@@ -83,7 +83,8 @@
                             <strong>Total</strong>
                             <strong>${{ $total }}</strong>
                         </div>
-                        <button class="btn btn-primary w-100">Proceed to Checkout</button>
+                        <a class="btn btn-primary w-100" href="{{ route('user.checkout') }}">Proceed to Checkout</a>
+                        {{-- <button class="btn btn-primary w-100">Proceed to Checkout</button> --}}
                     </div>
                 </div>
                 <!-- Promo Code -->

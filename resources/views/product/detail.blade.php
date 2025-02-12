@@ -1,10 +1,32 @@
 @extends('layout.master')
+@section('style')
+    <style>
+        .product-image {
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            opacity: 1;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="container mt-5">
         @session('success')
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
         @endsession
         <div class="row">
             <!-- Product Images -->
@@ -42,19 +64,20 @@
                     <span class="ms-2">4.5 (120 reviews)</span>
                 </div>
                 <p class="mb-4">{{ $product->product_description }}</p>
-                @if(Auth::check())
-                <form action="{{ route('product.addtocart') }}" method="post">
-                    @csrf
-                    <div class="mb-4">
-                        <label for="quantity" class="form-label">Quantity:</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" style="width: 80px;">
-                        <input type="hidden" name="product_id" value="{{ $product->id }}" />
-                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" />
-                    </div>
-                    <button class="btn btn-primary btn-lg mb-3 me-2" type="submit">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </form>
+                @if (Auth::check())
+                    <form action="{{ route('product.addtocart') }}" method="post">
+                        @csrf
+                        <div class="mb-4">
+                            <label for="quantity" class="form-label">Quantity:</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" value="1"
+                                min="1" style="width: 80px;">
+                            <input type="hidden" name="product_id" value="{{ $product->id }}" />
+                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" />
+                        </div>
+                        <button class="btn btn-primary btn-lg mb-3 me-2" type="submit">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                    </form>
                 @else
                     Not Authorized to add to cart
                 @endif

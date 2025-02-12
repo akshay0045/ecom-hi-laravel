@@ -18,6 +18,9 @@ Route::controller(UserController::class)->middleware('auth')->group(function () 
     Route::post("qtyupdate",'qtyupdate')->name('user.qtyupdate');
     Route::post("cartitemdelete",'cartitemdelete')->name('user.cartitemdelete');
     Route::get('logout','logout')->name('user.logout');
+    Route::get('checkout','checkout')->name('user.checkout');
+    Route::post('placeorder','placeorder')->name('user.placeorder');
+    Route::get('successpage/{id}','successpage')->name('order.successpage');
 });
 
 // Route::view("/", 'welcome');
