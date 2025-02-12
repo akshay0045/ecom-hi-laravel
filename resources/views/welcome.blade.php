@@ -28,4 +28,5 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
+    @include('product.tranding',[$products])
 @endsection
