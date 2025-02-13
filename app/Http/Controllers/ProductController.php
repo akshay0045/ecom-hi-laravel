@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
-use App\Models\Cartitem;
-use App\Models\Product;
 use Auth;
+use App\Models\Cart;
+use App\Models\Banner;
+use App\Models\Product;
+use App\Models\Cartitem;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     public function index(){
         $products = Product::orderBy("id","desc")->get();
-        return view("welcome",compact("products"));
+        $banners = Banner::get();
+        return view("welcome",compact("products"),compact("banners"));
     }
 
     public function detail($id){

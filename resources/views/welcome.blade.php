@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-    <div id="carouselExampleDark" class="carousel carousel-dark slide">
+    <div id="carouselExampleDark" class="carousel carousel-dark slide mb-5">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true"
                 aria-label="Slide 1"></button>
@@ -9,12 +9,12 @@
             <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
-            @foreach ($products as $product)
-                <div class="carousel-item {{ $product->id == 1 ? 'active' : '' }}" data-bs-interval="10000">
-                    <img src="{{ $product->product_gallary }}" class="d-block w-100 h-10" height="300px" alt="...">
+            @foreach ($banners as $banner)
+                <div class="carousel-item {{ $banner->id == 1 ? 'active' : '' }}" data-bs-interval="10000">
+                    <img src="{{ $banner->banner_img }}" class="d-block w-100 h-10" height="300px" alt="...">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>{{ $product->product_name }}</h5>
-                        <p>{{ $product->product_description }}</p>
+                        <h5>{{ $banner->banner_name }}</h5>
+                        <p>{{ $banner->banner_description }}</p>
                     </div>
                 </div>
             @endforeach
