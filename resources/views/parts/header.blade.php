@@ -36,6 +36,8 @@
                         </a>
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item" href="{{ url('logout') }}">Logout</a></li>
+                          <li><a class="dropdown-item" href="{{ route('user.customer',['type' => "account"]) }}">My Account</a></li>
+                          
                         </ul>
                       </li>
                     
