@@ -9,8 +9,8 @@ use App\Http\Controllers\UserController;
 // });
 Route::controller(UserController::class)->middleware('guest')->group(function () {
     
-    Route::match(['get','post'],'login','login')->name('user.login');
-    Route::get('registration','registration')->name('user.registration');
+    Route::match(['get','post'],'login','login')->name('login');
+    Route::get('registration','registration')->name('registration');
 });
 Route::controller(UserController::class)->middleware('auth')->group(function () {
     
@@ -21,6 +21,8 @@ Route::controller(UserController::class)->middleware('auth')->group(function () 
     Route::get('checkout','checkout')->name('user.checkout');
     Route::post('placeorder','placeorder')->name('user.placeorder');
     Route::get('successpage/{id}','successpage')->name('order.successpage');
+    Route::get('customer/{type}','customer')->name('user.customer');
+    Route::get('customer/order/view/{id}','orderview')->name('customer.order.view');
 });
 
 // Route::view("/", 'welcome');
@@ -30,5 +32,7 @@ Route::controller(ProductController::class)->group(function () {
     Route::get("search",'search')->name('product.search');
     Route::post("addtocart",'addtocart')->name('product.addtocart');
 });
+
+
 
 

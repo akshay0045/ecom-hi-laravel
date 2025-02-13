@@ -49,4 +49,12 @@ class User extends Authenticatable
     protected function Orders() {
         return $this->hasMany(Order::class);
     }
+
+    public function useraddresses(){
+        return $this->hasMany(UserAddress::class);
+    }
+
+    public function carts(){
+        return $this->hasMany(Cart::class);
+    }
 }

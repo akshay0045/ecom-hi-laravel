@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-    <form action="{{ route('user.login') }}" method="post">
+    <form action="{{ route('login') }}" method="post">
         @csrf
         <div class="mb-3 row">
             <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>

@@ -245,92 +245,9 @@
             @csrf
             <div class="row">
                 <div class="col-xl-8">
-
                     <div class="card">
                         <div class="card-body">
                             <ol class="activity-checkout mb-0 px-4 mt-3">
-                                <li class="checkout-item">
-                                    <div class="avatar checkout-icon p-1">
-                                        <div class="avatar-title rounded-circle bg-primary">
-                                            <i class="bx bxs-receipt text-white font-size-20"></i>
-                                        </div>
-                                    </div>
-                                    <div class="feed-item-list">
-                                        <div>
-                                            <h5 class="font-size-16 mb-1">Billing Info</h5>
-                                            <p class="text-muted text-truncate mb-4">Sed ut perspiciatis unde omnis iste</p>
-                                            <div class="mb-3">
-                                                <div>
-                                                    <div class="row">
-                                                        <div class="col-lg-4">
-                                                            <div class="mb-3">
-                                                                <label class="form-label" for="billing-name">Name</label>
-                                                                <input type="text" class="form-control"
-                                                                    name="billing-name" placeholder="Enter name">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4">
-                                                            <div class="mb-3">
-                                                                <label class="form-label" for="billing-email-address">Email
-                                                                    Address</label>
-                                                                <input type="email" class="form-control"
-                                                                    name="billing-email-address" placeholder="Enter email">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4">
-                                                            <div class="mb-3">
-                                                                <label class="form-label" for="billing-phone">Phone</label>
-                                                                <input type="text" class="form-control"
-                                                                    name="billing-phone" placeholder="Enter Phone no.">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label class="form-label" for="billing-address">Address</label>
-                                                        <textarea class="form-control" name="billing-address" rows="3" placeholder="Enter full address"></textarea>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-lg-4">
-                                                            <div class="mb-4 mb-lg-0">
-                                                                <label class="form-label">Country</label>
-                                                                <select class="form-control form-select" title="Country"
-                                                                    name="billing-country">
-                                                                    <option value="0">Select Country</option>
-                                                                    <option value="AF">India</option>
-                                                                    <option value="AL">Albania</option>
-                                                                    <option value="DZ">Algeria</option>
-                                                                    <option value="AS">American Samoa</option>
-                                                                    <option value="AD">Andorra</option>
-                                                                    <option value="AO">Angola</option>
-                                                                    <option value="AI">Anguilla</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-4">
-                                                            <div class="mb-4 mb-lg-0">
-                                                                <label class="form-label" for="billing-city">City</label>
-                                                                <input type="text" class="form-control"
-                                                                    name="billing-city" placeholder="Enter City">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-4">
-                                                            <div class="mb-0">
-                                                                <label class="form-label" for="zip-code">Zip / Postal
-                                                                    code</label>
-                                                                <input type="text" class="form-control" name="zip-code"
-                                                                    placeholder="Enter Postal code">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
                                 <li class="checkout-item">
                                     <div class="avatar checkout-icon p-1">
                                         <div class="avatar-title rounded-circle bg-primary">
@@ -340,25 +257,24 @@
                                     <div class="feed-item-list">
                                         <div>
                                             <h5 class="font-size-16 mb-1">Shipping Info</h5>
-                                            <p class="text-muted text-truncate mb-4">{{ Auth::user()->name }}</p>
+                                            <p class="text-muted text-truncate mb-4">Neque porro quisquam est</p>
                                             <div class="mb-3">
                                                 <div class="row">
-                                                    @foreach ($carts->user->useraddresses as $address)
                                                     <div class="col-lg-4 col-sm-6">
                                                         <div data-bs-toggle="collapse">
                                                             <label class="card-radio-label mb-0">
                                                                 <input type="radio" name="shipping-address"
                                                                     id="info-address1" class="card-radio-input"
-                                                                    checked=""
-                                                                    value="{{ $address->id }}">
+                                                                    checked="">
                                                                 <div class="card-radio text-truncate p-3">
-                                                                    <span class="fs-14 mb-4 d-block">Address {{ $address->id }}</span>
-                                                                    <span class="fs-14 mb-2 d-block">{{$carts->name}}</span>
+                                                                    <span class="fs-14 mb-4 d-block">Billing Address</span>
                                                                     <span
-                                                                        class="text-muted fw-normal text-wrap mb-1 d-block">{{$address->address}},{{ $address->city }},{{ $address->state }},{{ $address->country }},{{ $address->zip_code }}</span>
+                                                                        class="fs-14 mb-2 d-block">{{ $order['billing-name'] }}</span>
+                                                                    <span
+                                                                        class="text-muted fw-normal text-wrap mb-1 d-block">{{ $order['billing-address'] }},{{ $order['billing-city'] }},{{ $order['billing-country'] }},{{ $order['billing-zip-code'] }}</span>
 
                                                                     <span class="text-muted fw-normal d-block">Mo.
-                                                                        {{ $address->mobile }}</span>
+                                                                        {{ $order['billing-phone'] }}</span>
                                                                 </div>
                                                             </label>
                                                             <div class="edit-btn bg-light  rounded">
@@ -370,24 +286,21 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @endforeach
-                                                    
 
-                                                    {{-- <div class="col-lg-4 col-sm-6">
+                                                    <div class="col-lg-4 col-sm-6">
                                                         <div>
                                                             <label class="card-radio-label mb-0">
                                                                 <input type="radio" name="shipping-address"
-                                                                    id="info-address2" class="card-radio-input"
-                                                                    value="Address 2,Akshay Shah,10 Pavan Tirth Tenament,Anand,India,388320,9016475270">
+                                                                    id="info-address2" class="card-radio-input">
                                                                 <div class="card-radio text-truncate p-3">
-                                                                    <span class="fs-14 mb-4 d-block">Address 2</span>
-                                                                    <span class="fs-14 mb-2 d-block">Bradley
-                                                                        McMillian</span>
+                                                                    <span class="fs-14 mb-4 d-block">Shipping Address</span>
                                                                     <span
-                                                                        class="text-muted fw-normal text-wrap mb-1 d-block">109
-                                                                        Clarksburg Park Road Show Low, AZ 85901</span>
-                                                                    <span class="text-muted fw-normal d-block">Mo.
-                                                                        012-345-6789</span>
+                                                                        class="fs-14 mb-2 d-block">{{ $order['shipping-name'] }}</span>
+                                                                    <span
+                                                                        class="text-muted fw-normal text-wrap mb-1 d-block">{{ $order['shipping-address'] }},{{ $order['shipping-city'] }},{{ $order['shipping-zip-code'] }},{{ $order['shipping-country'] }}</span>
+
+                                                                    <span class="text-muted fw-normal d-block">
+                                                                        {{ $order['shipping-phone'] }}</span>
                                                                 </div>
                                                             </label>
                                                             <div class="edit-btn bg-light  rounded">
@@ -398,7 +311,7 @@
                                                                 </a>
                                                             </div>
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -418,42 +331,16 @@
                                         <div>
                                             <h5 class="font-size-14 mb-3">Payment method :</h5>
                                             <div class="row">
-                                                {{-- <div class="col-lg-3 col-sm-6">
-                                                <div data-bs-toggle="collapse">
-                                                    <label class="card-radio-label">
-                                                        <input type="radio" name="pay-method" id="pay-methodoption1"
-                                                            class="card-radio-input">
-                                                        <span class="card-radio py-3 text-center text-truncate">
-                                                            <i class="bx bx-credit-card d-block h2 mb-3"></i>
-                                                            Credit / Debit Card
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3 col-sm-6">
-                                                <div>
-                                                    <label class="card-radio-label">
-                                                        <input type="radio" name="pay-method" id="pay-methodoption2"
-                                                            class="card-radio-input">
-                                                        <span class="card-radio py-3 text-center text-truncate">
-                                                            <i class="bx bxl-paypal d-block h2 mb-3"></i>
-                                                            Paypal
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </div> --}}
-
                                                 <div class="col-lg-3 col-sm-6">
                                                     <div>
                                                         <label class="card-radio-label">
-                                                            <input type="radio" name="pay-method"
-                                                                id="pay-methodoption3" class="card-radio-input"
-                                                                checked="" value="Cash on Delivery">
+                                                            <input type="radio" name="pay-method" id="pay-methodoption3"
+                                                                class="card-radio-input" checked=""
+                                                                value="Cash on Delivery">
 
                                                             <span class="card-radio py-3 text-center text-truncate">
                                                                 <i class="bx bx-money d-block h2 mb-3"></i>
-                                                                <span>Cash on Delivery</span>
+                                                                <span>{{ $order['pay-method'] }}</span>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -469,14 +356,8 @@
 
                     <div class="row my-4">
                         <div class="col">
-                            <a href="ecommerce-products.html" class="btn btn-link text-muted">
+                            <a href="{{ url('/') }}" class="btn btn-link text-muted">
                                 <i class="mdi mdi-arrow-left me-1"></i> Continue Shopping </a>
-                        </div> <!-- end col -->
-                        <div class="col">
-                            <div class="text-end mt-2 mt-sm-0">
-                                <button type="submit" class="btn btn-success">
-                                    <i class="mdi mdi-cart-outline me-1"></i> Procced </button>
-                            </div>
                         </div> <!-- end col -->
                     </div> <!-- end row-->
 
@@ -494,25 +375,19 @@
                                     <thead>
                                         <tr>
                                             <th class="border-top-0" style="width: 110px;" scope="col">Product</th>
-                                            <th class="border-top-0" scope="col">Product Desc</th>
+                                            {{-- <th class="border-top-0" scope="col">Product Desc</th> --}}
                                             <th class="border-top-0" scope="col">Price</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php
-                                            $total = 0;
-                                        @endphp
-                                        @foreach ($carts->cartitems as $item)
-                                            @php
-                                                $total = $total + $item->qty * $item->products->product_price;
-                                            @endphp
+                                        @foreach ($order->orderitems as $item)
                                             <tr>
-                                                <th scope="row"><img src="{{ $item->products->product_gallary }}"
+                                                {{-- <th scope="row"><img src="{{ $item->products->product_gallary }}"
                                                         alt="product-img" title="product-img" class="avatar-lg rounded">
-                                                </th>
+                                                </th> --}}
                                                 <td>
                                                     <h5 class="font-size-16 text-truncate"><a href="#"
-                                                            class="text-dark">{{ $item->products->product_name }}</a></h5>
+                                                            class="text-dark">{{ $item->product_name }}</a></h5>
                                                     <p class="text-muted mb-0">
                                                         <i class="bx bxs-star text-warning"></i>
                                                         <i class="bx bxs-star text-warning"></i>
@@ -520,16 +395,12 @@
                                                         <i class="bx bxs-star text-warning"></i>
                                                         <i class="bx bxs-star-half text-warning"></i>
                                                     </p>
-                                                    <p class="text-muted mb-0 mt-1">$ {{ $item->products->product_price }}
-                                                        x{{ $item->qty }}</p>
+                                                    <p class="text-muted mb-0 mt-1">$ {{ $item->product_price }}
+                                                        x{{ $item->product_qty }}</p>
                                                 </td>
-                                                <td>{{ $item->products->product_price * $item->qty }}</td>
+                                                <td>{{ $item->product_price * $item->product_qty }}</td>
                                             </tr>
                                         @endforeach
-                                        @php
-                                            $shippingCharges = 25;
-                                            $tax = round($total - $total / 1.18, 2);
-                                        @endphp
                                         {{-- <tr>
                                         <th scope="row"><img src="https://www.bootdey.com/image/280x280/FF00FF/000000"
                                                 alt="product-img" title="product-img" class="avatar-lg rounded"></th>
@@ -551,7 +422,7 @@
                                                 <h5 class="font-size-14 m-0">Sub Total :</h5>
                                             </td>
                                             <td>
-                                                $ {{ $total }}
+                                                $ {{ $order->subtotal }}
                                             </td>
                                         </tr>
                                         {{-- <tr>
@@ -568,7 +439,7 @@
                                                 <h5 class="font-size-14 m-0">Shipping Charge :</h5>
                                             </td>
                                             <td>
-                                                $ {{ $shippingCharges }}
+                                                $ {{ $order->shipping_charges }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -576,7 +447,7 @@
                                                 <h5 class="font-size-14 m-0">GSt 18% (Including) :</h5>
                                             </td>
                                             <td>
-                                                $ {{ $tax }}
+                                                $ {{ $order->tax }}
                                             </td>
                                         </tr>
 
@@ -585,16 +456,11 @@
                                                 <h5 class="font-size-14 m-0">Total:</h5>
                                             </td>
                                             <td>
-                                                $ {{ $total + $shippingCharges }}
+                                                $ {{ $order->total }}
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <input type="hidden" name="shipping_charges" value="{{ $shippingCharges }}">
-                                <input type="hidden" name="cart_id" value="{{ $carts->id }}">
-                                <input type="hidden" name="tax" value="{{ $tax }}">
-                                <input type="hidden" name="subtotal" value="{{ $total }}">
-                                <input type="hidden" name="total" value="{{ $total + $shippingCharges }}">
                             </div>
                         </div>
                     </div>

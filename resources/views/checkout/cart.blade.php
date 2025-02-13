@@ -10,7 +10,7 @@
                         @php
                             $total = 0;
                         @endphp
-                        @foreach ($carts as $item)
+                        @foreach ($carts->cartitems as $item)
                             @php
 
                                 $total = $total + $item->qty * $item->products->product_price;
@@ -33,19 +33,19 @@
                                     <div class="input-group">
                                         <button class="btn btn-outline-secondary btn-sm qty_decrement" type="button"
                                             data-product_id="{{ $item->product_id }}"
-                                            data-cart_id="{{ $item->id }}">-</button>
+                                            data-cart_id="{{ $item->cart_id }}">-</button>
                                         <input readonly style="max-width:100px" type="text"
                                             class="form-control  form-control-sm text-center quantity-input"
                                             value="{{ $item->qty }}">
                                         <button class="btn btn-outline-secondary btn-sm qty_increment"
-                                            data-product_id="{{ $item->product_id }}" data-cart_id="{{ $item->id }}"
+                                            data-product_id="{{ $item->product_id }}" data-cart_id="{{ $item->cart_id }}"
                                             type="button">+</button>
                                     </div>
                                 </div>
                                 <div class="col-md-2 text-end">
                                     <p class="fw-bold">${{ $item->qty * $item->products->product_price }}</p>
                                     <button class="btn btn-sm btn-outline-danger delete"
-                                        data-cart_id="{{ $item->id }}">
+                                        data-cart_id="{{ $item->cart_id }}" data-product_id="{{ $item->product_id }}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
@@ -178,11 +178,13 @@
 
             $(".delete").on('click', function() {
                 var cart_id = $(this).data('cart_id');
+                var product_id = $(this).data('product_id');
                 $.ajax({
                     url: "{{ url('cartitemdelete') }}",
                     type: "POST",
                     data: {
                         cart_id: cart_id,
+                        product_id: product_id,
                         _token: '{{ csrf_token() }}'
                     },
                     dataType: 'json',

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Cartitem;
 use App\Models\Orderitem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,34 +38,41 @@ class UserController extends Controller
     }
 
     public function cart(){
-        $carts = Cart::where('user_id', Auth::user()->id)->with('user')->with('products')->get();
-        if($carts->count() > 0){
+        $carts = Cart::where('user_id', Auth::user()->id)->where('is_active', 1)->with('user')->with('cartitems.products')->first();
+        // return $carts;
+        if($carts && $carts->cartitems->count() > 0){
             return view('checkout.cart',compact('carts'));
         }
         return redirect("/");
     }
     public function qtyupdate(Request $request){
-        $carts = Cart::find( $request->cart_id );
-        
-        $updatedcarts = $carts->update([
+        $cartItems = Cartitem::where('product_id',$request->product_id)->where('cart_id',$request->cart_id)->first();
+        // return [$request->all(),$cartItems];
+        $updatedcarts = $cartItems->update([
             'qty' => $request->qty
         ]);
         return response()->json($updatedcarts);
     }
     public function cartitemdelete(Request $request){
-        $carts = Cart::find( $request->cart_id );
+        $deletecarts = Cartitem::where('product_id',$request->product_id)->where('cart_id',$request->cart_id)->delete();
         
-        $deletecarts = $carts->delete();
         return response()->json($deletecarts);
     }
     public function checkout(Request $request){
-        $carts = Cart::where('user_id',Auth::user()->id)->with('user')->with('products')->get();
-        //return $carts;
-        return view('checkout.checkout',compact('carts'));
+
+        $carts = Cart::where('user_id',Auth::user()->id)->where('is_active',1)->with('user.useraddresses')->with('cartitems.products')->first();
+
+        // return $carts;
+        if($carts) {
+            return view('checkout.checkout',compact('carts'));
+        }
+        return redirect('/');
     }
-    public function placeorder(Request $request){       
-        $carts = Cart::where('user_id',Auth::user()->id)->with('user')->with('products')->get();
-        $shippingAddress = explode(",",$request->input('shipping-address'));
+    public function placeorder(Request $request){    
+
+        $carts = Cart::where('user_id',Auth::user()->id)->where('is_active',1)->with('user.useraddresses', function($query) use ($request){
+            return $query->find($request->input('shipping-address'));
+        })->with('cartitems.products')->first();
         $orderData = [
             'status' => "Processing",
             'user_id' => Auth::user()->id,
@@ -75,13 +84,13 @@ class UserController extends Controller
             'billing-country' => $request->input('billing-country'),
             'billing-city' => $request->input('billing-city'),
             'billing-zip-code' => $request->input('zip-code'),
-            'shipping-name' => $shippingAddress[1],
+            'shipping-name' => $carts->user->name,
             'shipping-email-address' => $request->input('billing-email-address'),
-            'shipping-phone' => $shippingAddress[4],
-            'shipping-address' => $shippingAddress[2],
-            'shipping-country' => explode(" ",trim($shippingAddress[2]))[0],
-            'shipping-city' => "Anand",
-            'shipping-zip-code' => explode(" ",trim($shippingAddress[2]))[1],
+            'shipping-phone' => $carts->user->useraddresses[0]->mobile,
+            'shipping-address' => $carts->user->useraddresses[0]->address,
+            'shipping-country' => $carts->user->useraddresses[0]->country,
+            'shipping-city' => $carts->user->useraddresses[0]->city,
+            'shipping-zip-code' => $carts->user->useraddresses[0]->zip_code,
             'pay-method' => $request->input('pay-method'),
             'shipping_charges' => $request->input('shipping_charges'),
             'tax' => $request->input('tax'),
@@ -90,7 +99,7 @@ class UserController extends Controller
         ];
         $order = Order::create($orderData);
         $orderItemData= [];
-        foreach ($carts as $key => $item) {
+        foreach ($carts->cartitems as $key => $item) {
             $orderItemData[] = [
                 'order_id' => $order->id,
                 'product_id' => $item->product_id,
@@ -100,11 +109,44 @@ class UserController extends Controller
             ];
         }
         $orderItem = Orderitem::insert($orderItemData); 
+        Cart::find($request->cart_id)->update([
+            'is_active' => 0
+        ]);
         return redirect(route('order.successpage',['id' =>$order->id])); 
     }
 
     public function successpage($id){
         $order = Order::find( $id );
-        return view('checkout.success',compact('order'));
+        if($order){
+            return view('checkout.success',compact('order'));
+        }
+        return redirect('/');
+    }
+
+    public function customer($type){
+        $sidebar = "user_dashboard_sidebar";
+        if("account" == strtolower($type)){
+            $data = Order::where("user_id",Auth::User()->id)->get();
+            $page = "user_dashboard_dashboard";
+        }
+        elseif("address" == strtolower($type)){
+            $data = User::where("id",Auth::User()->id)->with('useraddresses')->first();
+            // return $data;
+            $page = "user_dashboard_address";
+        }
+        elseif("order" == strtolower($type)){
+            $data = Order::where("user_id",Auth::User()->id)->get();
+            $page = "user_dashboard_order";
+        }
+        
+        // return $orders;
+        return view('user.dashboard',['data'=>$data,"sidebar"=>'user_dashboard_sidebar',"page" => $page]);
+    }
+
+    public function orderview($id){
+        $order = Order::find( $id );
+        if($order){
+            return view('user.orderdetail',compact('order'));
+        }
     }
 }
